@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  ordering-service:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2024-11-22T14:54:35.1503626+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 926ff632a70bf4b674c8a0bd9a87bd78e20c678e1e747f2ff0012aa3f1e45dd3
+    name: ordering-service
+    type: application
+    urls:
+    - https://SlavaDenisenko.github.io/order-service/ordering-service-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-11-22T14:54:35.141447+03:00"
