@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "ordering.fullname" . }}-ss-db-billing
+spec:
+  serviceName: {{ .Values.billingService.database.service.name }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "ordering.fullname" . }}-ss-db-billing
+  template:
+    metadata:
+      labels:
+        app: {{ include "ordering.fullname" . }}-ss-db-billing
+    spec:
+      containers:
+        - name: db-billing
+          image: {{ include "ordering.dbBilling.image" . }}
+          ports:
+            - containerPort: {{ .Values.billingService.database.image.port }}
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.billingService.secret.name }}
+                  key: db_billing_name
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.billingService.secret.name }}
+                  key: db_billing_username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.billingService.secret.name }}
+                  key: db_billing_password
+          volumeMounts:
+            - name: {{ .Values.billingService.database.volumeMount.name }}
+              mountPath: {{ .Values.billingService.database.volumeMount.mountPath }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.billingService.database.volumeMount.name }}
+      spec:
+        accessModes: {{ .Values.billingService.database.accessModes }}
+        resources:
+          requests:
+            storage: {{ .Values.billingService.database.resources.requests.storage }}

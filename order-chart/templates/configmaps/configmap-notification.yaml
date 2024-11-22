@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.notificationService.configmap.name }}
+  annotations:
+    "helm.sh/hook": pre-install
+data:
+  notification_port: {{ .Values.notificationService.image.port | quote }}
+  notification_jpa_generation: {{ .Values.notificationService.jpa.hibernate.ddlAuto }}

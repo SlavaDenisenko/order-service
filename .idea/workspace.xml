@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="23d661a6-a72e-4742-b6f9-72b4979bd427" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/docker/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/java/com/denisenko/BillingServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/java/com/denisenko/controller/AccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/java/com/denisenko/dto/BillingRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/java/com/denisenko/dto/BillingResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/java/com/denisenko/event/UserCreatedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/java/com/denisenko/model/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/java/com/denisenko/repository/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/java/com/denisenko/service/AccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/billing-service/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build-scripts/docker/basic/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build-scripts/docker/build-images-naive.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build-scripts/docker/docker-compose.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/docker/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/denisenko/NotificationServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/denisenko/controller/NotificationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/denisenko/event/OrderEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/denisenko/model/Notification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/denisenko/repository/NotificationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/denisenko/service/NotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/.helmignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/NOTES.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/_helpers.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/configmaps/configmap-billing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/configmaps/configmap-migration.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/configmaps/configmap-notification.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/configmaps/configmap-order.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/deployments/deploy-billing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/deployments/deploy-notification.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/deployments/deploy-order.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/ingresses/ingress-billing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/ingresses/ingress-notification.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/ingresses/ingress-order.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/jobs/job-billing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/jobs/job-notification.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/jobs/job-order.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/secrets/secret-billing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/secrets/secret-notification.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/secrets/secret-order.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/services/svc-billing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/services/svc-db-billing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/services/svc-db-notification.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/services/svc-db-order.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/services/svc-notification.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/services/svc-order.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/statefulsets/ss-db-billing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/statefulsets/ss-db-notification.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/statefulsets/ss-db-order.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/templates/tests/test-connection.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-chart/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/docker/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/OrderServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/client/BillingClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/controller/OrderController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/dto/BillingRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/dto/BillingResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/dto/OrderErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/dto/OrderRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/dto/OrderResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/dto/UserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/event/OrderEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/event/UserCreatedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/model/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/repository/OrderRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/service/OrderService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/denisenko/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2p0qaiJJXUzWqefpEjoA9T7pA0k" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/study/OTUS/nginx_ingress.yaml&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\study\OTUS\ordering-service\build-scripts\docker" />
+      <recent name="C:\study\OTUS\ordering-service\order-chart\templates\ingresses" />
+      <recent name="C:\study\OTUS\ordering-service\order-chart\templates\jobs" />
+      <recent name="C:\study\OTUS\ordering-service\order-chart\templates\configmaps" />
+      <recent name="C:\study\OTUS\ordering-service\order-chart\templates\secrets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\study\OTUS\ordering-service\delete" />
+      <recent name="C:\study\OTUS\ordering-service\order-chart\templates\jobs" />
+      <recent name="C:\study\OTUS\ordering-service\order-chart\templates\configmaps" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="23d661a6-a72e-4742-b6f9-72b4979bd427" name="Changes" comment="" />
+      <created>1731913408190</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731913408190</updated>
+    </task>
+    <servers />
+  </component>
+</project>

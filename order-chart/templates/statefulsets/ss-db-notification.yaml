@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "ordering.fullname" . }}-ss-db-notification
+spec:
+  serviceName: {{ .Values.notificationService.database.service.name }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "ordering.fullname" . }}-ss-db-notification
+  template:
+    metadata:
+      labels:
+        app: {{ include "ordering.fullname" . }}-ss-db-notification
+    spec:
+      containers:
+        - name: db-notification
+          image: {{ include "ordering.dbNotification.image" . }}
+          ports:
+            - containerPort: {{ .Values.notificationService.database.image.port }}
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notificationService.secret.name }}
+                  key: db_notification_name
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notificationService.secret.name }}
+                  key: db_notification_username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notificationService.secret.name }}
+                  key: db_notification_password
+          volumeMounts:
+            - name: {{ .Values.notificationService.database.volumeMount.name }}
+              mountPath: {{ .Values.notificationService.database.volumeMount.mountPath }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.notificationService.database.volumeMount.name }}
+      spec:
+        accessModes: {{ .Values.notificationService.database.accessModes }}
+        resources:
+          requests:
+            storage: {{ .Values.notificationService.database.resources.requests.storage }}

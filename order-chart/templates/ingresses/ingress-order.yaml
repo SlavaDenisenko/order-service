@@ -1,0 +1,45 @@
+{{- if .Values.orderService.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "ordering.fullname" . }}-ingress-order
+  labels:
+    {{- include "ordering.labels" . | nindent 4 }}
+  {{- with .Values.orderService.ingress.annotations }}
+  annotations:
+    {{ tpl (toYaml .) $ | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.orderService.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  {{- if .Values.orderService.ingress.tls }}
+  tls:
+    {{- range .Values.orderService.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.orderService.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- with .pathType }}
+            pathType: {{ . }}
+            {{- end }}
+            {{- with $.Values.orderService.service }}
+            backend:
+              service:
+                name: {{ .name }}
+                port:
+                  number: {{ .port }}
+            {{- end }}
+          {{- end }}
+    {{- end }}
+{{- end }}

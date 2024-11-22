@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.notificationService.database.service.name }}
+spec:
+  selector:
+    app: {{ include "ordering.fullname" . }}-ss-db-notification
+  ports:
+    - protocol: TCP
+      port: {{ .Values.notificationService.database.service.port }}
+      targetPort: {{ .Values.notificationService.database.image.port }}

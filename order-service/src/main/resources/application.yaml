@@ -1,0 +1,25 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  datasource:
+    url: ${DB_ORDER_URL}
+    username: ${DB_ORDER_USERNAME}
+    password: ${DB_ORDER_PASSWORD}
+    driver-class-name: ${DB_ORDER_DRIVER_CLASS_NAME}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_GENERATION}
+  kafka:
+    bootstrap-servers: ${BOOTSTRAP_SERVERS}
+    topics:
+      order-placement: ${KAFKA_TOPIC_ORDER_PLACEMENT}
+      user-creation: ${KAFKA_TOPIC_USER_CREATION}
+    template:
+      default-topic: ${spring.kafka.topics.order-placement}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+order-service:
+  billing-service-url: ${BILLING_SERVICE_URL}

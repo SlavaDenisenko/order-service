@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "ordering.fullname" . }}-db-order-migration
+  annotations:
+    "helm.sh/hook": post-install, post-upgrade
+    "helm.sh/hook-weight": "0"
+spec:
+  template:
+    metadata:
+      name: db-order-migration
+    spec:
+      initContainers:
+        - name: init-db-order-check
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for PostgreSQL to be ready...";
+              until nc -z {{ .Values.orderService.database.service.name }} {{ .Values.orderService.database.service.port }}; do
+                echo "Order database not ready yet, waiting...";
+                sleep 5;
+              done;
+      containers:
+        - name: db-order-migration
+          image: {{ include "ordering.migration.image" . }}
+          env:
+            - name: LIQUIBASE_COMMAND_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.orderService.secret.name }}
+                  key: db_order_url
+            - name: LIQUIBASE_COMMAND_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.orderService.secret.name }}
+                  key: db_order_username
+            - name: LIQUIBASE_COMMAND_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.orderService.secret.name }}
+                  key: db_order_password
+            - name: LIQUIBASE_COMMAND_CHANGELOG_FILE
+              value: {{ .Values.migration.volumeMount.mountPath }}
+          volumeMounts:
+            - name: {{ .Values.migration.volumeMount.name }}
+              mountPath: {{ .Values.migration.volumeMount.rootPath }}{{ .Values.migration.volumeMount.mountPath }}
+              subPath: changelog_order
+          command: [ "liquibase", "update", "--log-level=DEBUG" ]
+      restartPolicy: OnFailure
+      volumes:
+        - name: {{ .Values.migration.volumeMount.name }}
+          configMap:
+            name: {{ include "ordering.fullname" . }}-changelog-config

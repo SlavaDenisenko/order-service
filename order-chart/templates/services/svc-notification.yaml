@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.notificationService.service.name }}
+spec:
+  type: {{ .Values.notificationService.service.type }}
+  ports:
+    - name: web
+      port: {{ .Values.notificationService.service.port }}
+      targetPort: {{ .Values.notificationService.image.port }}
+      protocol: TCP
+  selector:
+    app: notification-service

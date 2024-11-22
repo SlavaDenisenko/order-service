@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.orderService.configmap.name }}
+  annotations:
+    "helm.sh/hook": pre-install
+data:
+  order_port: {{ .Values.orderService.image.port | quote }}
+  order_jpa_generation: {{ .Values.orderService.jpa.hibernate.ddlAuto }}

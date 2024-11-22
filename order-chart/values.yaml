@@ -1,0 +1,315 @@
+orderService:
+  image:
+    repository: sdenisenko/order-service
+    tag: "1.0"
+    pullPolicy: Always
+    port: 8080
+  replicaCount: 2
+  service:
+    name: svc-order
+    port: 80
+    type: ClusterIP
+  kafka:
+    bootstrapServers: my-cluster-kafka-bootstrap:9092
+    topics:
+      userCreation: user-creation
+      orderPlacement: order-placement
+  jpa:
+    hibernate:
+      ddlAuto: validate
+  database:
+    image:
+      repository: postgres
+      tag: "14"
+      port: 5432
+    name: db-order
+    username: postgres-order
+    password: password-order
+    driverClassName: org.postgresql.Driver
+    service:
+      name: svc-db-order
+      port: 5446
+    accessModes: [ "ReadWriteOnce" ]
+    resources:
+      requests:
+        storage: 1Gi
+    volumeMount:
+      name: postgres-storage
+      mountPath: /var/lib/postgresql/data
+  configmap:
+    name: configmap-order
+  secret:
+    name: secret-order
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: arch.homework
+        paths:
+          - path: /users
+            pathType: Exact
+            definition: This endpoint is designed to create a new user
+          - path: /orders
+            pathType: Exact
+            definition: This endpoint is designed to place an order
+    tls: []
+
+billingService:
+  image:
+    repository: sdenisenko/billing-service
+    tag: "1.0"
+    pullPolicy: Always
+    port: 8080
+  replicaCount: 2
+  service:
+    name: svc-billing
+    port: 80
+    type: ClusterIP
+  kafka:
+    bootstrapServers: my-cluster-kafka-bootstrap:9092
+    topics:
+      userCreation: user-creation
+    groupId: billing-service-group
+  jpa:
+    hibernate:
+      ddlAuto: validate
+  database:
+    image:
+      repository: postgres
+      tag: "14"
+      port: 5432
+    name: db-billing
+    username: postgres-billing
+    password: password-billing
+    driverClassName: org.postgresql.Driver
+    service:
+      name: svc-db-billing
+      port: 5432
+    accessModes: [ "ReadWriteOnce" ]
+    resources:
+      requests:
+        storage: 1Gi
+    volumeMount:
+      name: postgres-storage
+      mountPath: /var/lib/postgresql/data
+  configmap:
+    name: configmap-billing
+  secret:
+    name: secret-billing
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: arch.homework
+        paths:
+          - path: /accounts/([^/]+)
+            pathType: ImplementationSpecific
+            definition: This endpoint is for viewing the current balance
+          - path: /accounts/([^/]+)/deposit
+            pathType: ImplementationSpecific
+            definition: This endpoint is designed to replenish the balance
+    tls: []
+
+notificationService:
+  image:
+    repository: sdenisenko/notification-service
+    tag: "1.0"
+    pullPolicy: Always
+    port: 8080
+  replicaCount: 2
+  service:
+    name: svc-notification
+    port: 80
+    type: ClusterIP
+  kafka:
+    bootstrapServers: my-cluster-kafka-bootstrap:9092
+    topics:
+      orderPlacement: order-placement
+    groupId: notification-service-group
+  jpa:
+    hibernate:
+      ddlAuto: validate
+  database:
+    image:
+      repository: postgres
+      tag: "14"
+      port: 5432
+    name: db-notification
+    username: postgres-notification
+    password: password-notification
+    driverClassName: org.postgresql.Driver
+    service:
+      name: svc-db-notification
+      port: 5445
+    accessModes: [ "ReadWriteOnce" ]
+    resources:
+      requests:
+        storage: 1Gi
+    volumeMount:
+      name: postgres-storage
+      mountPath: /var/lib/postgresql/data
+  configmap:
+    name: configmap-notification
+  secret:
+    name: secret-notification
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: arch.homework
+        paths:
+          - path: /notifications/
+            pathType: Prefix
+            definition: This endpoint is for viewing notifications of certain user
+    tls: []
+
+migration:
+  image:
+    repository: liquibase/liquibase
+    tag: "4.27.0"
+  volumeMount:
+    name: changelog-volume
+    rootPath: /liquibase
+    mountPath: /changelog/changelog.yaml
+  changelog:
+    dbOrder: |
+      databaseChangeLog:
+            - changeSet:
+                id: 1
+                author: Vyacheslav Denisenko
+                changes:
+                  - createTable:
+                      tableName: t_users
+                      columns:
+                        - column:
+                            name: id
+                            type: int
+                            autoIncrement: true
+                            constraints:
+                              primaryKey: true
+                        - column:
+                            name: username
+                            type: varchar(255)
+                            constraints:
+                              unique: true
+                              nullable: false
+                        - column:
+                            name: first_name
+                            type: varchar(255)
+                            constraints:
+                              nullable: false
+                        - column:
+                            name: last_name
+                            type: varchar(255)
+                            constraints:
+                              nullable: false
+                        - column:
+                            name: email
+                            type: varchar(255)
+                            constraints:
+                              nullable: false
+                        - column:
+                            name: phone
+                            type: varchar(255)
+                            constraints:
+                              nullable: false
+                  - createTable:
+                      tableName: t_orders
+                      columns:
+                        - column:
+                            name: id
+                            type: int
+                            autoIncrement: true
+                            constraints:
+                              primaryKey: true
+                        - column:
+                            name: user_id
+                            type: int
+                            constraints:
+                              foreignKeyName: user_id_fk
+                              references: t_users(id)
+                        - column:
+                            name: price
+                            type: decimal
+                            constraints:
+                              nullable: false
+                        - column:
+                            name: comment
+                            type: varchar(255)
+    dbBilling: |
+      databaseChangeLog:
+      - changeSet:
+          id: 1
+          author: Vyacheslav Denisenko
+          changes:
+            - createTable:
+                tableName: t_accounts
+                columns:
+                  - column:
+                      name: id
+                      type: int
+                      autoIncrement: true
+                      constraints:
+                        primaryKey: true
+                  - column:
+                      name: user_id
+                      type: int
+                      constraints:
+                        unique: true
+                        nullable: false
+                  - column:
+                      name: username
+                      type: varchar(255)
+                      constraints:
+                        nullable: false
+                  - column:
+                      name: balance
+                      type: decimal
+                      constraints:
+                        nullable: false
+    dbNotification: |
+      databaseChangeLog:
+      - changeSet:
+          id: 1
+          author: Vyacheslav Denisenko
+          changes:
+            - createTable:
+                tableName: t_notifications
+                columns:
+                  - column:
+                      name: id
+                      type: int
+                      autoIncrement: true
+                      constraints:
+                        primaryKey: true
+                  - column:
+                      name: order_id
+                      type: int
+                  - column:
+                      name: user_id
+                      type: int
+                      constraints:
+                        nullable: false
+                  - column:
+                      name: status
+                      type: varchar(20)
+                      constraints:
+                        nullable: false
+                  - column:
+                      name: price
+                      type: decimal
+                      constraints:
+                        nullable: false
+                  - column:
+                      name: message
+                      type: varchar(255)
+                      constraints:
+                        nullable: false
+                  - column:
+                      name: created_at
+                      type: timestamp(0)
+                      constraints:
+                        nullable: false
+
+nameOverride: "ordering"
+fullnameOverride: "ordering-service"

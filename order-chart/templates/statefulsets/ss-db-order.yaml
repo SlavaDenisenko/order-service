@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "ordering.fullname" . }}-ss-db-order
+spec:
+  serviceName: {{ .Values.orderService.database.service.name }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "ordering.fullname" . }}-ss-db-order
+  template:
+    metadata:
+      labels:
+        app: {{ include "ordering.fullname" . }}-ss-db-order
+    spec:
+      containers:
+        - name: db-order
+          image: {{ include "ordering.dbOrder.image" . }}
+          ports:
+            - containerPort: {{ .Values.orderService.database.image.port }}
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.orderService.secret.name }}
+                  key: db_order_name
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.orderService.secret.name }}
+                  key: db_order_username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.orderService.secret.name }}
+                  key: db_order_password
+          volumeMounts:
+            - name: {{ .Values.orderService.database.volumeMount.name }}
+              mountPath: {{ .Values.orderService.database.volumeMount.mountPath }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.orderService.database.volumeMount.name }}
+      spec:
+        accessModes: {{ .Values.orderService.database.accessModes }}
+        resources:
+          requests:
+            storage: {{ .Values.orderService.database.resources.requests.storage }}
